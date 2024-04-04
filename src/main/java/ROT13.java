@@ -1,5 +1,7 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.util.Scanner;
 
 import static java.lang.Character.isLowerCase;
@@ -41,7 +43,7 @@ public class ROT13  {
         return text;
     }
 
-    public String encrypt(String text) {
+    public static String encrypt(String text) {
         StringBuilder encodedText = new StringBuilder();
         for (int i = 0; i < text.length(); i++) {
             char ch = text.charAt(i);
@@ -87,35 +89,25 @@ public class ROT13  {
         return result.toString();
     }
 
-//    Make a method that reads a textfile (sonnet18.txt),
-//    encrypts it,
-//    and writes it back out to a different file (sonnet18.enc)
-//    Prove that when you read in (sonnet18.enc),
-//    run the same crypt again,
-//    and prove that it produces the same original text.
-
-//    The basic process to read in from file is the following:
-//    Create an Scanner object using the input file
-//    Loop through each line and read it in
-//    After reading in the line, process the line
-//    Move on to the next line
-//    Exit the loop after reading in all lines.
-
-//    Writing to an output file is similar to our input.
-//    The most common way to do this in Java is using the print writer.
-//    After importing the PrintWriter,
-//    we simply create a new file,
-//    write to it using println commands and then close it.
-
-    public void fileEncrypt(String filename){
-        Scanner scan = new Scanner();
-        File fileReader = new File(filename);
-        File fileWriter = new File(encryptedFile);
+    public static void encryptFile() {
         try {
-
-
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+            String text1 = "/Users/anthony/Documents/Projects/SimpleCrypt/sonnet18.txt";
+            String text2 = "/Users/anthony/Documents/Projects/SimpleCrypt/sonnet18.enc";
+            String text3 = "/Users/anthony/Documents/Projects/SimpleCrypt/sonnet18.denc";
+            Scanner fileScan = new Scanner(new File (text2));
+            PrintWriter filePrint = new PrintWriter(text3);
+            while (fileScan.hasNext()) {
+                String fileIn = fileScan.nextLine();
+                String textEnc = encrypt(fileIn);
+                filePrint.println(textEnc);
+            }
+            filePrint.close();
+        } catch (IOException e) {
+            System.out.println("File Not Found");
         }
+    }
+
+    public static void main(String[] args) {
+        encryptFile();
     }
 }
